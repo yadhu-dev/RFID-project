@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue Book</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <form id="submit-form">
+        <p id="p1">BookName: <span id="book_name"></span> </p>
+        <p id="p2">RollNo: <span id="roll_no"></span> </p>
+        <button id="btn" type="submit">Issue</button>
+    </form>
+
+    <p id="success-message" style="display:none;">Successfully Issued</p>
+
+    <script>
+        $(document).ready(function() {
+            function fetch_book_data() {
+                $.ajax({
+                    url: '/fetch_book_data',
+                    type: 'GET',
+                    success: function(data) {
+                        if (data.book_name !== "Not found") {
+                            $('#book_name').text(data.book_name);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error in fetching book data:', status, error);
+                    }
+                });
+            }
+
+            function fetch_student_data() {
+                $.ajax({
+                    url: '/fetch_student_data',
+                    type: 'GET',
+                    success: function(data) {
+                        if (data.rollNo !== "Not found") {
+                            $('#roll_no').text(data.rollNo);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error in fetching student data:', status, error);
+                    }
+                });
+            }
+
+            $('#submit-form').on('submit', function(e) {
+                e.preventDefault();
+
+                var formData = {
+                    'book_name': $('#book_name').text(),
+                    'roll_no': $('#roll_no').text()
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/submit',
+                    data: formData,
+                    dataType: 'json',
+                    encode: true,
+                    success: function(data) {
+                        if (data.success) {
+                            $('#success-message').show();
+                            setTimeout(function() {
+                                $('#success-message').fadeOut('slow');
+                            }, 1000);
+                            fetch_book_data();
+                            fetch_student_data();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            });
+
+            // Fetch data every 2 seconds
+            setInterval(fetch_book_data, 2000);
+            setInterval(fetch_student_data, 2000);
+        });
+    </script>
+</body>
+</html>
