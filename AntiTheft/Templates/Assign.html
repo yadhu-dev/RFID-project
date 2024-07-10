@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/Assign.css') }}" type="text/css">
+</head>
+<body>
+    <nav class="header">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+    </nav>
+    <div class="container">
+        <form id="submit-form">
+            <p class="p1">UID: <input type="text" name="bookuid_ip" id="ip1" value="{{ book_id }}" ></p>
+            <p class="p2">Name of the Book: <input type="text" name="name_ip" id="ip2" placeholder="Enter the book name here..." autocomplete="off"></p>
+            <button id="btn" type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="success-message" id="success-message">
+        <p class="success_p">Successfully Submitted....</p>
+    </div>
+    <script>
+        $(document).ready(function() {
+            function fetch_data() {
+                $.ajax({
+                    url: '/uid',
+                    type: 'GET',
+                    success: function(data) {
+                        $('#ip1').val(data.book_id);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error in fetching data:', status, error);
+                    }
+                });
+            }
+            fetch_data();
+            setInterval(fetch_data, 800);
+
+            $('#submit-form').on('submit', function(e) {
+                e.preventDefault();
+                var formData = {
+                    'bookuid_ip': $('#ip1').val(),
+                    'name_ip': $('#ip2').val()
+                };
+                $.ajax({
+                    url: '/submit',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    encode: true,
+                    success: function(data) {
+                        if (data.success) {
+                            $('#success-message').show();
+                            setTimeout(function() {
+                                $('#success-message').fadeOut('slow');
+                            }, 1000);
+                            $('#ip1').val('');
+                            $('#ip2').val('');
+                            fetch_data();
+                        } else {
+                            alert(data.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('An error occurred. Please try again...');
+                    }
+                });
+            });
+        });
+    </script>
+   
+</body>
+</html>
