@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write Data</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(12deg, #21314599, transparent);
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+        form {
+            margin-top: 12px;
+        }
+        .header {
+            background: #61727b63;
+            height: 90px;
+            width: 100%;
+            padding: 0 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; 
+            justify-content: center; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+        }
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            width: 100%;
+            max-width: 600px; 
+            margin-right: 200px; 
+        }
+        .form-group {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: row; 
+            align-items: center; 
+        }
+        .container {
+            background: #ffffff00;
+            border: 2px solid black;
+            height: 307px;
+            width: 613px;
+            margin-top: 146px;
+            margin-left: 406px;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
+            border-radius: 48px;
+            box-shadow: black 35px 37px 54px;
+        }
+        .container:hover{
+            background: #95929293;
+        }
+        .form-group label {
+            margin: 0;
+            color: rgb(0, 0, 0);
+            margin-right: 10px; 
+        }
+        .form-group select {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .btn-container {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            margin-top: 10px; 
+        }
+        .btn {
+            background-color: #0073ff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0027b3;
+        }
+        .btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .back-btn {
+            background-color: #6c757d;
+        }
+        .back-btn:hover {
+            background-color: #5a6268;
+        }
+        .sub_btn{
+            height:40px;
+            width: 120px;
+            background: #0080ff;
+            color: aliceblue;
+            border-radius: 16px;
+        }
+        .sub_btn:hover{
+            background-color: #656d75;
+            height:36px;
+            width:116px;
+        }
+        .success, .config-info {
+            color: white;
+            background-color: #28a745; 
+            padding: 10px;
+            margin: 10px 0; 
+            text-align: center;
+            display: none; 
+        }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+        #nextButton {
+            margin-left: 10px; 
+        }
+        .h3_writing {
+            color: black;
+            font-style: italic;
+            margin-top: 17px;
+            margin-bottom: 20px; 
+        }
+        .container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; 
+            align-items: center; 
+        }
+        .container label {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            color: black; 
+        }
+        .container input[type="text"] {
+            margin-left: 10px; 
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="success" id="success">Successful Configuration!</div>
+            <div id="configInfo" class="config-info"></div> <!-- Config info div -->
+            <form id="configForm" action="/configure" method="post">
+                <div id="step1" class="step active">
+                    <div class="form-group">
+                        <label for="port">Select Port:</label>
+                        <select name="port" id="port" required>
+                            <option value="" disabled selected>Select a port</option>
+                            <option value="/dev/ttyUSB0">/dev/ttyUSB0</option>
+                            <option value="/dev/ttyUSB1">/dev/ttyUSB1</option>
+                            <option value="COM3">COM3</option>
+                            <option value="COM4">COM4</option>
+                            <option value="COM5">COM5</option>
+                            <option value="COM6">COM6</option>
+                            <option value="COM7">COM7</option>
+                            <option value="COM8">COM8</option>
+                        </select>
+                    </div>
+                    <div class="btn-container">
+                        <button type="button" class="btn" id="nextButton" disabled onclick="showStep(2)">Next</button>
+                    </div>
+                </div>
+                <div id="step2" class="step">
+                    <div class="form-group">
+                        <label for="baud_rate">Select Baud Rate:</label>
+                        <select name="baud_rate" id="baud_rate" required>
+                            <option value="" disabled selected>Select a baud rate</option>
+                            <option value="9600">9600</option>
+                            <option value="19200">19200</option>
+                            <option value="38400">38400</option>
+                            <option value="57600">57600</option>
+                            <option value="115200">115200</option>
+                        </select>
+                    </div>
+                    <div class="btn-container">
+                        <button type="button" class="btn back-btn" onclick="showStep(1)">Back</button>
+                        <input type="submit" value="Configure" class="btn">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <h3 class="h3_writing">Writing Data</h3>
+        <form id="dataForm" action="/submit-data" method="post">
+            <label for="uid">UID: <input type="text" id="uid" name="uid" required></label>
+            <label for="roll_no">Roll No: <input type="text" id="roll_no" name="roll_no" required></label>
+            <input type="submit" value="Submit" class="sub_btn">
+        </form>
+    </div>
+    <script>
+        const portSelect = document.getElementById('port');
+        const baudRateSelect = document.getElementById('baud_rate');
+        const nextButton = document.getElementById('nextButton');
+        const configInfo = document.getElementById('configInfo');
+        const success = document.getElementById('success');
+
+        portSelect.addEventListener('change', () => {
+            nextButton.disabled = portSelect.value === '';
+        });
+
+        baudRateSelect.addEventListener('change', () => {
+            nextButton.disabled = portSelect.value === '' || baudRateSelect.value === '';
+        });
+
+        function showStep(step) {
+            document.getElementById('step1').classList.toggle('active', step === 1);
+            document.getElementById('step2').classList.toggle('active', step === 2);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const configured = urlParams.get('configured');
+            const port = urlParams.get('port');
+            const baudRate = urlParams.get('baud_rate');
+
+            if (configured === 'true') {
+                success.style.display = 'block';
+                configInfo.style.display = 'block';
+                configInfo.textContent = `Connected to port ${port} with baud rate ${baudRate}`;
+            }
+        });
+    </script>
+</body>
+</html>
