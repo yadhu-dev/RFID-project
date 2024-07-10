@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(12deg, #21314599, transparent);
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+        .header {
+            background: #61727b63;
+            height: 90px;
+            width: 100%;
+        }
+        .container {
+            height: 299px;
+            width: 1064px;
+            margin-left: 200px;
+            margin-top: 108px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px; 
+        }
+        .button_area1, .button_area2, .button_area3 {
+            height: 82px;
+            width: 274px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 83px;
+            transition: background-color 0.3s;
+        }
+        .button_area1, .button_area2, .button_area3 {
+            background: rgb(0, 94, 255);
+        }
+        .button_area1:hover, .button_area2:hover, .button_area3:hover {
+            background: rgb(48, 53, 61);
+            height: 76px;
+            width: 268px;
+        }
+        .button_area1 a, .button_area2 a, .button_area3 a {
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="header"></div>
+
+    <div class="container">
+        <div class="button_area1"><a href="write.html">Write</a></div>
+        <div class="button_area2"><a href="read.html">Read</a></div>
+        <div class="button_area3"><a href="write.html">KeyStroke</a></div>
+    </div>
+
+</body>
+</html>
