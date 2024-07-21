@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFID Reader</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var socket = io.connect('http://' + document.domain + ':' + location.port);
+            
+            socket.on('rfid_update', function(data) {
+                document.getElementById('rfid-input').value = data.data;
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>RFID Reader</h1>
+    <input type="text" id="rfid-input" placeholder="Waiting for RFID data..." readonly>
+</body>
+</html>
